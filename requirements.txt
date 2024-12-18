@@ -1,0 +1,8 @@
+agentops==0.3.21
+arxiv==2.1.3
+python-dotenv==1.0.1
+beautifulsoup4==4.12.3
+pydantic==2.10.3
+crewai==0.86.0
+crewai-tools==0.17.0
+

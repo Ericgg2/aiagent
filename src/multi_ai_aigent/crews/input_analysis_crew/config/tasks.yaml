@@ -1,0 +1,16 @@
+research_analyzer_task:
+  description: >
+    Analyze the user's input and derive clear search parameters (keyword, date range, number of papers).
+    user's input is "{user_input}"
+    1. The main keywords for the query search based on the user's input (to English).
+    2. The main keywords could be multiple keywords. (if there are multiple keywords, separate them by comma)
+    5. The date range for the search based on the user's input.
+    6. The number of papers to retrieve based on the user's input.
+    7. if not specified, the default number of papers to retrieve is 3.
+    8. if not specified, the default date range is before now (from 1950-01-01 to current date).
+    9. if the keywords is not specified, then search the latest papers 
+    10. current date is {date}
+
+  expected_output: >
+    A JSON object containing the main_keywords, date range, and number of papers to retrieve.
+  agent: research_analyzer

@@ -1,0 +1,14 @@
+paper_searcher_task:
+  description: >
+    Use the analyzed results from the previous task (JSON object) to search for papers on arxiv.
+    
+    Previous analysis results:
+    Search papers based on the {keywords}, but search at least 15 papers first.
+    and then, compare each paper's title, abstract, and authors with the user's input "{user_input}".
+    and then, select the top (number_of_papers) papers that are most relevant to the user's "{user_input}".
+    Then, return the list of the selected papers.
+  
+  
+  expected_output: >
+    A list of papers that are most relevant to the user's input.
+  agent: paper_searcher
