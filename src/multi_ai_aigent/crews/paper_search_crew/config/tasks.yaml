@@ -1,14 +1,42 @@
+research_analyzer_task:
+  description: >
+    Analyze the user's input "{user_input}" and derive clear search parameters (keyword, date range, number of papers).
+    1. The main keywords for the query search based on the user's input (to English).
+    2. The main keywords could be multiple keywords. (if there are multiple keywords, separate them by comma)
+    3. Remove the words that are not suitable for the search. (such as paper, article, etc.)
+    4. The date range for the search based on the user's input.
+    5. you have to figure out the number of papers to retrieve based on the user's input.
+    6. if not specified, the default number of papers to retrieve is 1.
+    
+    8. if not specified, the default date range is before now (from 1950-01-01 to current date).
+    9. if the keywords is not specified, then search the latest papers 
+    10. current date is {date}
+
+  expected_output: >
+    A Dictionary containing the main_keywords, date range, and number of papers to retrieve.
+  agent: research_analyzer
+
+
 paper_searcher_task:
   description: >
-    Use the analyzed results from the previous task (JSON object) to search for papers on arxiv.
-    
-    Previous analysis results:
-    Search papers based on the {keywords}, but search at least 15 papers first.
+    Use the analyzed results from the previous task to search for papers on arxiv.
+
+    Search papers based on the main_keywords and date range, but search at least 15 papers first.
     and then, compare each paper's title, abstract, and authors with the user's input "{user_input}".
     and then, select the top (number_of_papers) papers that are most relevant to the user's "{user_input}".
-    Then, return the list of the selected papers.
-  
-  
+    Then, put the title, abstract, authors,date, and URL of the selected papers into the python Dictionary type.
+    the dictionary should be like this:
+    {{
+      "papers": [
+        {{
+          "title": "Paper Title",
+          "abstract": "Paper Abstract",
+          "authors": "Paper Authors",
+          "date": "Paper Date",
+          "url": "Paper URL"
+        }}
+      ]
+    }}
   expected_output: >
-    A list of papers that are most relevant to the user's input.
+    A python Dictionary of title, abstract, authors,date, and URL of the selected papers
   agent: paper_searcher

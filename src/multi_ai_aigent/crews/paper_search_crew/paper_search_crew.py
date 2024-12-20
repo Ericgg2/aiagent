@@ -13,11 +13,24 @@ class PaperSearchCrew():
 	tasks_config = 'config/tasks.yaml'
 
 	@agent
+	def research_analyzer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['research_analyzer'],
+			verbose=True,
+		)
+
+	@agent
 	def paper_searcher(self) -> Agent:
 		return Agent(
 			config=self.agents_config['paper_searcher'],
 			verbose=True,
 			tools=[SearchArxivTool()]
+		)
+
+	@task
+	def research_analyzer_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['research_analyzer_task'],
 		)
 
 	@task
@@ -37,3 +50,5 @@ class PaperSearchCrew():
 			process=Process.sequential,
 			verbose=True,
 		)
+	
+	

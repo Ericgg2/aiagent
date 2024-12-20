@@ -1,0 +1,18 @@
+paper_summarizer_task:
+  description: >
+    Please summarize the following text according to these requirements:
+    1. As a professional AI researcher, help others understand this study
+    2. Summarize main points in bullet points in KOREAN
+    3. Translate English content to Korean, but keep technical terms in English
+    4. Summarize each section separately if the content is divided
+    5. Keep technical terms in their original English form
+    6. Include any tables, figures, and captions in their original form
+    7. Format the final summary in markdown
+    8. Collect all English technical terms in a separate KEYWORD section
+    9. Do not add any additional markdown formatting markers
+
+    Text to summarize: {text}
+
+  expected_output: >
+    A detailed summary of the paper in Korean, including main points, technical terms, and any tables or figures
+  agent: paper_summarizer
