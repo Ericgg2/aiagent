@@ -286,14 +286,26 @@ class UserInputFlow(Flow[UserInput]):
             
             # 각 섹션 요약 추가
             for file, summary in summaries:
-                section_name = os.path.splitext(file)[0].upper()
+                # 파일 이름에서 숫자와 언더스코어 제거하고 섹션 이름 추출
+                section_name = os.path.splitext(os.path.basename(file))[0]  # 확장자 제거
+                section_name = '_'.join(section_name.split('_')[1:])  # 숫자_ 제거
+                section_name = section_name.replace('_', ' ').upper()  # 언더스코어를 공백으로 변경하고 대문자로
+                
+                # 섹션 내용 구성
                 section_content = f"## {section_name}\n\n"
-                section_content += f"{summary.raw}\n\n"
+                
+                # summary가 문자열인 경우와 객체인 경우 모두 처리
+                if hasattr(summary, 'raw'):
+                    section_content += f"{summary.raw}\n\n"
+                else:
+                    section_content += f"{summary}\n\n"
+                
                 section_content += "---\n\n"
                 f.write(section_content)
                 summary_content.append(section_content)
-        
+
         self.state.body = "\n".join(summary_content)
+        print(f"summary_content: {self.state.body}")
         return summary_content
         
     @listen("news_search_go")

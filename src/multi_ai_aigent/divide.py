@@ -6,7 +6,7 @@ def split_and_save_sections_by_keywords(text, output_dir,date):
     print(f"=== Processing Start ===")
     print(f"Output directory: {output_dir}")
     
-    keywords = [
+    main_sections = [
         "ABSTRACT",
         "APPROACH",
         "BACKGROUND",
@@ -28,30 +28,39 @@ def split_and_save_sections_by_keywords(text, output_dir,date):
         "REFERENCES"
     ]
     
-    print(f"\nLooking for these keywords: {keywords}")
+   # 단순화된 패턴
+    patterns = [
+        r'^#{1,4}\s*.*?(?:' + '|'.join(main_sections) + r')\s*$',  # #### Abstract
+        r'^\d+\.\s*(?:' + '|'.join(main_sections) + r')\s*$',      # 1. Introduction
+        r'^(?:' + '|'.join(main_sections) + r')\s*$'               # ABSTRACT
+    ]
     
-    # 수정된 패턴: 줄 시작 부분에서 키워드를 찾되, 앞뒤 공백과 줄바꿈을 허용
-    pattern = r'(?im)^\s*(?:#{1,3}\s*)?(?:\*?\s*)?(?:\d+\.?\d*\s*)?(' + '|'.join(keywords) + r')[\s\*]*$'
-    print(f"\nUsing regex pattern: {pattern}")
-    
-    # 텍스트를 줄 단위로 처리
     lines = text.split('\n')
     sections = []
     current_section = []
     current_title = None
     
     for line in lines:
-        # 키워드 매칭 확인
-        match = re.match(pattern, line.strip())
-        if match:
-            # 이전 섹션 저장
-            if current_title and current_section:
-                sections.append((current_title, '\n'.join(current_section)))
-            # 새 섹션 시작
-            current_title = match.group(1).upper()
-            current_section = []
-            print(f"\nFound section: {current_title}")
-        elif current_title:
+        line = line.strip()
+        found_section = False
+        
+        for pattern in patterns:
+            if re.search(pattern, line, re.IGNORECASE):
+                # 현재 라인에서 섹션 제목 찾기
+                for section in main_sections:
+                    if section.lower() in line.lower():
+                        # 이전 섹션 저장
+                        if current_title and current_section:
+                            sections.append((current_title, '\n'.join(current_section)))
+                        
+                        current_title = section
+                        current_section = []
+                        found_section = True
+                        print(f"\nFound section: {current_title}")
+                        break
+                break
+        
+        if not found_section and current_title:
             current_section.append(line)
     
     # 마지막 섹션 저장
@@ -61,14 +70,12 @@ def split_and_save_sections_by_keywords(text, output_dir,date):
     print(f"\nFound {len(sections)} sections")
     
     # 섹션 저장
-    # 전체 디렉토리 경로 생성
     os.makedirs(base_path, exist_ok=True)
-    n= 0
-    for title, content in sections:
-        n += 1
-        filename = f"{base_path}/{n}_{title.lower().replace(' ', '_')}.md"
+    for i, (title, content) in enumerate(sections, 1):
+        safe_title = re.sub(r'[^\w\s-]', '', title).strip().lower().replace(' ', '_')
+        filename = f"{base_path}/{i}_{safe_title}.md"
         with open(filename, 'w', encoding='utf-8') as f:
-            f.write(content)
+            f.write(content.strip() + '\n')
         print(f"Saved section: {filename}")
     
     print("\n=== Processing Complete ===")
