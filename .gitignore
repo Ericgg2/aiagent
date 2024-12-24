@@ -1,3 +1,5 @@
 .env
 __pycache__/
 lib/
+token.json
+credentials.json
