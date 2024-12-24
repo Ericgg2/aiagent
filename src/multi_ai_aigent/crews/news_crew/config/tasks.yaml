@@ -1,17 +1,20 @@
 user_input_analyzer_task:
   description: >
-    Analyze the {user_input} and find out the main keywords in needed language and date range to search the news.
+    Analyze the {user_input} and find out the main keywords in needed language and date range (which current date is {date}) to search the news.
     find out which country to search the news.
-    the current date is {date}.
+    if there is no date range, find out the last 1 month news from the current date {date}.
+
   expected_output: >
-    The main keywords, date range, country for perfect news search
+    The main keywords (that are compulsory to search the news), date range, country for perfect news search
   agent: user_input_analyzer
 
 news_researcher_task:
   description: >
     the current date is {date}.
     from last task, you've got the main keywords, date range, country for perfect news search.
+    try to find the latest news from the date range.
     Make sure you find any interesting and relevant information given the main keywords, date range, country.
+    Check the date of the news and if the date is not in the date range, skip the news.
     Get the list of 10 websites with the most relevant information about the main keywords
     And rank the list by relevance to the main keywords.
   expected_output: >
@@ -21,6 +24,8 @@ news_researcher_task:
 news_scraper_task:
   description: >
     Scrape the websites on the list from last task 
+    Send the url of each website to the next task
+    Get the Main Image URL from each website and send it to the next task
   expected_output: >
     Fully scraped websites with all the important information from the website.
   agent: news_scraper
@@ -29,11 +34,13 @@ news_summarizer_task:
   description: >
     the current date is {date}.
     Summarize the information from the fully scraped websites from last task into a fully fledge news article in markdown format.
+    use bullet points to summarize the information if needed. and make it detailed and concise.
     if the language is not Korean, translate the summary into Korean.
     Make sure to include all the important information from the websites.
     Make sure to include the date of the news article.
+    Make sure to include the image by the image url from last task.
     Make sure to include the source of the news articles.
-    Make sure to include url and reference of each website.
+    Make sure to include url and reference of each website. (the url and reference of each website is from last task)
 
   expected_output: >
     A fully fledge news article with the main topics, each with a full section of information.

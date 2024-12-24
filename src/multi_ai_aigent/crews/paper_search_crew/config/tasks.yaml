@@ -6,12 +6,11 @@ research_analyzer_task:
     3. Remove the words that are not suitable for the search. (such as paper, article, etc.)
     4. The date range for the search based on the user's input.
     5. you have to figure out the number of papers to retrieve based on the user's input.
-    6. if not specified, the default number of papers to retrieve is 1.
-    
+    6. if not specified, the default number of papers to retrieve is 3.
+    7. the minimum number of papers to retrieve is 3.
     8. if not specified, the default date range is before now (from 1950-01-01 to current date).
     9. if the keywords is not specified, then search the latest papers 
     10. current date is {date}
-
   expected_output: >
     A Dictionary containing the main_keywords, date range, and number of papers to retrieve.
   agent: research_analyzer
@@ -40,3 +39,5 @@ paper_searcher_task:
   expected_output: >
     A python Dictionary of title, abstract, authors,date, and URL of the selected papers
   agent: paper_searcher
+
+  

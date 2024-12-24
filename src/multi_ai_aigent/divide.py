@@ -31,7 +31,7 @@ def split_and_save_sections_by_keywords(text, output_dir,date):
     print(f"\nLooking for these keywords: {keywords}")
     
     # 수정된 패턴: 줄 시작 부분에서 키워드를 찾되, 앞뒤 공백과 줄바꿈을 허용
-    pattern = r'(?im)^\s*(?:#{1,2}\s*)?(?:\d+\s+)?(' + '|'.join(keywords) + r')\s*$'
+    pattern = r'(?im)^\s*(?:#{1,3}\s*)?(?:\*?\s*)?(?:\d+\.?\d*\s*)?(' + '|'.join(keywords) + r')[\s\*]*$'
     print(f"\nUsing regex pattern: {pattern}")
     
     # 텍스트를 줄 단위로 처리
@@ -63,9 +63,10 @@ def split_and_save_sections_by_keywords(text, output_dir,date):
     # 섹션 저장
     # 전체 디렉토리 경로 생성
     os.makedirs(base_path, exist_ok=True)
-    
+    n= 0
     for title, content in sections:
-        filename = f"{base_path}/{title.lower().replace(' ', '_')}.md"
+        n += 1
+        filename = f"{base_path}/{n}_{title.lower().replace(' ', '_')}.md"
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(content)
         print(f"Saved section: {filename}")
