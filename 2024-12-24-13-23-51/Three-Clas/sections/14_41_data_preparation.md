@@ -1,2 +1,0 @@
-
-The dataset used in this study consists of Weibo comment texts that were collected through web scraping, totaling 21,091 samples: 8,703 negative, 4,355 neutral, and 8,033 positive comments. To ensure the validity of the data, preprocessing steps were applied to the text data. This involved using regular expressions to remove punctuation, spaces, URLs, and Weibo-specific elements such as topics marked with "##" and usernames prefixed with "@"—all of which are irrelevant to sentiment analysis.

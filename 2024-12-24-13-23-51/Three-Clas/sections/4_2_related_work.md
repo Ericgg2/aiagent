@@ -1,2 +1,0 @@
-
-In recent years, with the rapid development of the internet, the frequency of emotionally inclined texts on the web has gradually increased, making text sentiment analysis a hot research direction in the field of Natural Language Processing (NLP). For text sentiment analysis, research methods are mainly divided into three categories: methods based on sentiment dictionaries/rules, methods based on traditional machine learning, and methods based on deep learning.
